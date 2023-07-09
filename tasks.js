@@ -9,6 +9,7 @@ function findDifference(array) {
   return maxNum - minNum;
 }
 // console.log(findDifference([1, 2, 3, -4]));
+// console.log(findDifference([16]));
 
 // Задача 2
 function filteredWords(str, num) {
@@ -405,36 +406,34 @@ university.addStudent({ id: 2, name: 'Igor', course: 3, faculty: 'Technology' })
 // Задача 22
 function statistics(text) {
   let obj = {
+    wordCount: null,
+    sentenceCount: null,
+    characterCount: null,
     frequentWords: [],
   };
-
+  const removeExtraSpace = str => str.filter(item => item.trim());
   const specialChars = '[`!@#$%^&*()_+-=[]{};\':"\\|,.<>/?~]/'.split('');
   const textWitohutExtraSymbols = text.replace(/[\p{P}\p{S}]/gu, '');
 
-  const words = textWitohutExtraSymbols
-    .split(' ')
-    .filter(item => item !== '')
-    .forEach(item => {
-      obj.frequentWords[item] = obj.frequentWords[item] ? obj.frequentWords[item] + 1 : 1;
-    });
+  obj.wordCount = removeExtraSpace(textWitohutExtraSymbols.split(' ')).length;
+
+  obj.sentenceCount = removeExtraSpace(text.split(/[.!?]/g)).length;
+
+  obj.characterCount = text.split('').filter(item => specialChars.includes(item)).length;
+
+  removeExtraSpace(textWitohutExtraSymbols.split(' ')).forEach(item => {
+    obj.frequentWords[item] = obj.frequentWords[item] ? obj.frequentWords[item] + 1 : 1;
+  });
 
   const sortedWords = Object.keys(obj.frequentWords)
     .sort((a, b) => obj.frequentWords[b] - obj.frequentWords[a])
     .slice(0, 4);
-
-  obj.wordCount = textWitohutExtraSymbols.replace(/\s\s+/g, ' ').split(' ').length;
-
-  obj.sentenceCount = text.split(/[.!?]/g).filter(sentence => sentence !== '').length;
-
-  obj.characterCount = text.split('').filter(item => specialChars.includes(item)).length;
-
   obj.frequentWords = sortedWords;
-
   return obj;
 }
 
 // console.log(
 //   statistics(
-//     'Напишіть програму, яка аналізує текст та виводить статистику про кількість слів, речень та символів у тексті. Реалізуйте також функцію, яка визначає слова, що найчастіше зустрічаються в тексті. Використовуйте методи роботи з рядками, регулярні вирази та обєкти для вирішення задачі.'
+//     'Напишіть  програму, яка аналізує текст та виводить статистику про кількість слів, речень та символів у тексті. Реалізуйте також функцію, яка визначає слова, що найчастіше зустрічаються в тексті. Використовуйте методи роботи з рядками, регулярні вирази та обєкти для вирішення задачі.'
 //   )
 // );
